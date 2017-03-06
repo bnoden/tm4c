@@ -1,8 +1,13 @@
 //#include <stdlib.h>
 
-//const unsigned int MAX_COUNT = 12U;
+#define RCGCGPIO (*((unsigned int *)0x400FE608U))        // Clock Gating Control
+#define GPIOF_BASE 0x40025000U
+#define GPIO_DIR (*((unsigned int*)(GPIOF_BASE+0x400U)))
+#define GPIO_DEN (*((unsigned int*)(GPIOF_BASE+0x51CU))) // Digital ENable
+#define GPIO_DATA (*((unsigned int*)(GPIOF_BASE+0x3FCU)))
 
-//void blinkAll(void);
+
+//const unsigned int MAX_COUNT = 12U;
 
 const unsigned int BLINK = 300000U;
 
@@ -10,18 +15,16 @@ int count;
 
 int main() {
   
-  *((unsigned int*)0x400fe608U) = 0x20U;
-  *((unsigned int*)0x40025400U) = 0x0eU;
-  *((unsigned int*)0x4002551cU) = 0x0eU;
+  RCGCGPIO = 0x20U;
+  GPIOF_DIR = 0x0eU;
+  GPIOF_DEN = 0x0eU;
   
   while (1) {
   
-    //blinkAll();
-    *((unsigned int*)0x400253fcU) = 0x0a;
+    GPIO_DATA = 0x0a;
     count = 0;
     while (count < BLINK) {++count;}
     
-    //blinkAll();
     *((unsigned int*)0x400253fcU) = 0x04;
     count=0;
     while (count < BLINK) {++count;}
