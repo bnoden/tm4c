@@ -5,7 +5,7 @@
 #define LED_BLUE (1U << 2)
 #define LED_GREEN (1U << 3)
 
-void delay(int iter);
+void delay(int);
 
 const unsigned int BLINK = 300000U;
 
